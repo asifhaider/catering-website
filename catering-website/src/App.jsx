@@ -11,7 +11,7 @@ import ContactPage from './pages/ContactPage'
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <CartProvider>
         <div className="flex flex-col min-h-screen">
           <Navbar />
