@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { CartProvider } from './context/CartContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -11,7 +11,7 @@ import ContactPage from './pages/ContactPage'
 
 export default function App() {
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <HashRouter>
       <CartProvider>
         <div className="flex flex-col min-h-screen">
           <a href="#main-content" className="skip-link">Skip to main content</a>
@@ -31,6 +31,6 @@ export default function App() {
           <Footer />
         </div>
       </CartProvider>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
