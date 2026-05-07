@@ -13,9 +13,16 @@ export default function App() {
   return (
     <HashRouter>
       <CartProvider>
+        {/* SC 2.4.1 Bypass Blocks – skip navigation link */}
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
+
         <div className="flex flex-col min-h-screen">
           <Navbar />
-          <main className="flex-1">
+
+          {/* SC 1.3.1 / 4.1.2 – landmark role; tabIndex allows programmatic focus from skip link */}
+          <main id="main-content" className="flex-1" tabIndex={-1}>
             <Routes>
               <Route path="/"              element={<Navigate to="/menu" replace />} />
               <Route path="/menu"          element={<MenuPage />} />
@@ -27,6 +34,7 @@ export default function App() {
               <Route path="*"              element={<Navigate to="/menu" replace />} />
             </Routes>
           </main>
+
           <Footer />
         </div>
       </CartProvider>
