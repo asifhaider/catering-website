@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "./context/CartContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -15,7 +15,7 @@ import NotFound from "./pages/NotFound";
 
 export default function App() {
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <HashRouter>
       <CartProvider>
         <div className="page-wrapper">
           <Navbar />
@@ -35,6 +35,6 @@ export default function App() {
           <Footer />
         </div>
       </CartProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
