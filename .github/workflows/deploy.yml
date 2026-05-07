@@ -2,10 +2,12 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ['**']
+    branches-ignore:
+      - gh-pages
 
 permissions:
   contents: write
+  pages: write
 
 jobs:
   deploy:
