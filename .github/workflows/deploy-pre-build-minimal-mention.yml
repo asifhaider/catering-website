@@ -27,7 +27,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_BASE_URL: /claude-code/pre-build-minimal-mention/
+          GITHUB_REF_NAME: ${{ github.ref_name }}
 
       - name: Deploy to gh-pages subdirectory
         uses: peaceiris/actions-gh-pages@v4
