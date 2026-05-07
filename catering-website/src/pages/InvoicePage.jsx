@@ -45,10 +45,11 @@ export default function InvoicePage() {
         <div className="flex items-center justify-between mb-6 print:hidden">
           <Link to="/menu" className="text-sm text-gray-500 hover:text-brand-700 transition-colors">← Order More</Link>
           <button
+            type="button"
             onClick={handlePrint}
             className="flex items-center gap-2 bg-brand-700 hover:bg-brand-800 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-colors"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                 d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
             </svg>
@@ -58,7 +59,7 @@ export default function InvoicePage() {
 
         {/* Success banner */}
         <div className="bg-brand-50 border border-brand-200 rounded-2xl p-5 mb-6 text-center print:hidden">
-          <div className="text-4xl mb-2">🎉</div>
+          <div className="text-4xl mb-2" aria-hidden="true">🎉</div>
           <h1 className="font-display text-2xl font-bold text-brand-800 mb-1">Order Confirmed!</h1>
           <p className="text-brand-700 text-sm">
             Thank you, {order.customer.name.split(' ')[0]}! We'll have everything ready for pickup.
@@ -72,7 +73,7 @@ export default function InvoicePage() {
             <div className="flex items-start justify-between">
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xl">🍽️</span>
+                  <span className="text-xl" aria-hidden="true">🍽️</span>
                   <span className="font-display text-lg font-bold">Mama's Table</span>
                 </div>
                 <p className="text-brand-300 text-xs">Homemade Catering · Springfield, IL</p>
@@ -115,13 +116,13 @@ export default function InvoicePage() {
 
             {/* Line items */}
             <div>
-              <table className="w-full text-sm">
+              <table className="w-full text-sm" aria-label="Order line items">
                 <thead>
                   <tr className="border-b-2 border-gray-200">
-                    <th className="text-left pb-2 font-semibold text-gray-700">Item</th>
-                    <th className="text-center pb-2 font-semibold text-gray-700">Servings</th>
-                    <th className="text-right pb-2 font-semibold text-gray-700">$/person</th>
-                    <th className="text-right pb-2 font-semibold text-gray-700">Subtotal</th>
+                    <th scope="col" className="text-left pb-2 font-semibold text-gray-700">Item</th>
+                    <th scope="col" className="text-center pb-2 font-semibold text-gray-700">Servings</th>
+                    <th scope="col" className="text-right pb-2 font-semibold text-gray-700">$/person</th>
+                    <th scope="col" className="text-right pb-2 font-semibold text-gray-700">Subtotal</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -156,7 +157,7 @@ export default function InvoicePage() {
 
             {/* Footer note */}
             <div className="border-t border-gray-100 pt-4 text-center text-xs text-gray-400">
-              <p>Thank you for choosing Mama's Table! 🍽️</p>
+              <p>Thank you for choosing Mama's Table! <span aria-hidden="true">🍽️</span></p>
               <p className="mt-1">Questions? Contact us at hello@mamastable.com or (555) 234-5678</p>
             </div>
           </div>

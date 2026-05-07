@@ -8,7 +8,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-2xl">🍽️</span>
+              <span className="text-2xl" aria-hidden="true">🍽️</span>
               <span className="font-display text-lg font-bold text-white">Mama's Table</span>
             </div>
             <p className="text-sm leading-relaxed text-gray-400">
@@ -17,7 +17,7 @@ export default function Footer() {
           </div>
 
           {/* Quick links */}
-          <div>
+          <nav aria-label="Footer navigation">
             <h3 className="text-white font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2 text-sm">
               <li><Link to="/menu"    className="hover:text-warm-400 transition-colors">View Menu</Link></li>
@@ -25,33 +25,35 @@ export default function Footer() {
               <li><Link to="/about"   className="hover:text-warm-400 transition-colors">About Us</Link></li>
               <li><Link to="/contact" className="hover:text-warm-400 transition-colors">Contact</Link></li>
             </ul>
-          </div>
+          </nav>
 
           {/* Contact */}
           <div>
             <h3 className="text-white font-semibold mb-4">Get in Touch</h3>
             <ul className="space-y-2 text-sm">
               <li className="flex items-center gap-2">
-                <span>📞</span>
+                <span aria-hidden="true">📞</span>
                 <a href="tel:+15552345678" className="hover:text-warm-400 transition-colors">(555) 234-5678</a>
               </li>
               <li className="flex items-center gap-2">
-                <span>✉️</span>
+                <span aria-hidden="true">✉️</span>
                 <a href="mailto:hello@mamastable.com" className="hover:text-warm-400 transition-colors">hello@mamastable.com</a>
               </li>
               <li className="flex items-center gap-2">
-                <span>📍</span>
+                <span aria-hidden="true">📍</span>
                 <span className="text-gray-400">123 Oak Street, Springfield, IL</span>
               </li>
               <li className="flex items-center gap-2">
-                <span>🕐</span>
+                <span aria-hidden="true">🕐</span>
                 <span className="text-gray-400">Pickup: Mon–Sat, 11am–7pm</span>
               </li>
             </ul>
             <div className="flex gap-4 mt-4">
               <a href="https://instagram.com/mamastable" target="_blank" rel="noreferrer"
+                aria-label="Instagram (opens in new tab)"
                 className="text-gray-400 hover:text-warm-400 transition-colors text-sm">Instagram</a>
               <a href="https://facebook.com/mamastable" target="_blank" rel="noreferrer"
+                aria-label="Facebook (opens in new tab)"
                 className="text-gray-400 hover:text-warm-400 transition-colors text-sm">Facebook</a>
             </div>
           </div>

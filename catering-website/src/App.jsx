@@ -14,8 +14,9 @@ export default function App() {
     <BrowserRouter basename={import.meta.env.BASE_URL}>
       <CartProvider>
         <div className="flex flex-col min-h-screen">
+          <a href="#main-content" className="skip-link">Skip to main content</a>
           <Navbar />
-          <main className="flex-1">
+          <main id="main-content" className="flex-1">
             <Routes>
               <Route path="/"              element={<Navigate to="/menu" replace />} />
               <Route path="/menu"          element={<MenuPage />} />

@@ -11,7 +11,7 @@ export default function MenuSection({ category, items }) {
   return (
     <section className="mb-12">
       <div className="flex items-center gap-3 mb-6">
-        <span className="text-3xl">{meta.icon}</span>
+        <span className="text-3xl" aria-hidden="true">{meta.icon}</span>
         <div>
           <h2 className="text-xl font-bold text-gray-900 font-display">{meta.label}</h2>
           <p className="text-sm text-gray-500">{meta.desc}</p>

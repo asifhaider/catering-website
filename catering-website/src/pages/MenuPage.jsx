@@ -47,23 +47,25 @@ export default function MenuPage() {
 
           {/* Date picker */}
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 max-w-md">
-            <label className="block text-sm font-semibold mb-2 text-brand-100">
+            <label htmlFor="catering-date" className="block text-sm font-semibold mb-2 text-brand-100">
               Select your catering date
             </label>
-            <p className="text-xs text-brand-300 mb-3">
+            <p id="catering-date-hint" className="text-xs text-brand-300 mb-3">
               Orders accepted 2–14 days in advance · {rangeLabel}
             </p>
             <input
+              id="catering-date"
               type="date"
               value={selectedDate}
               min={toInputValue(min)}
               max={toInputValue(max)}
               onChange={e => setSelectedDate(e.target.value)}
+              aria-describedby="catering-date-hint"
               className="w-full bg-white text-gray-900 font-medium px-4 py-3 rounded-xl border-0 focus:ring-2 focus:ring-warm-400 outline-none text-sm cursor-pointer"
             />
             {selectedDate && (
               <p className="text-warm-300 text-sm mt-2">
-                📅 Showing <strong className="text-white">{dayName}</strong>'s menu — {formatDateString(selectedDate)}
+                <span aria-hidden="true">📅</span> Showing <strong className="text-white">{dayName}</strong>'s menu — {formatDateString(selectedDate)}
               </p>
             )}
           </div>
@@ -76,9 +78,9 @@ export default function MenuPage() {
           <>
             {/* Cart bar */}
             {cartCount > 0 && (
-              <div className="mb-8 bg-white border border-brand-200 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
+              <div role="status" aria-live="polite" aria-label={`${cartCount} dish${cartCount > 1 ? 'es' : ''} in your cart for ${formatDateString(selectedDate)}`} className="mb-8 bg-white border border-brand-200 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
                 <div className="flex items-center gap-3">
-                  <span className="bg-brand-700 text-white text-sm font-bold w-8 h-8 rounded-full flex items-center justify-center">
+                  <span aria-hidden="true" className="bg-brand-700 text-white text-sm font-bold w-8 h-8 rounded-full flex items-center justify-center">
                     {cartCount}
                   </span>
                   <div>

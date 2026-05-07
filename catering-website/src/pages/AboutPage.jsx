@@ -42,7 +42,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-warm-50">
       {/* Hero */}
       <div className="relative bg-brand-900 text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-20"
+        <div className="absolute inset-0 opacity-20" aria-hidden="true"
           style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1400&q=60)', backgroundSize: 'cover', backgroundPosition: 'center' }} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
           <p className="text-warm-400 text-sm font-semibold uppercase tracking-widest mb-3">Our Story</p>
@@ -81,14 +81,14 @@ export default function AboutPage() {
           <div className="relative">
             <img
               src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700&h=500&fit=crop&q=80"
-              alt="Mama's Table kitchen"
+              alt="Inside the Mama's Table kitchen"
               className="rounded-3xl shadow-lg w-full object-cover h-80"
             />
-            <div className="absolute -bottom-4 -left-4 bg-warm-500 text-white rounded-2xl p-4 shadow-lg">
+            <div aria-hidden="true" className="absolute -bottom-4 -left-4 bg-warm-500 text-white rounded-2xl p-4 shadow-lg">
               <p className="font-bold text-2xl">7+</p>
               <p className="text-xs text-warm-100">Years of love</p>
             </div>
-            <div className="absolute -top-4 -right-4 bg-brand-700 text-white rounded-2xl p-4 shadow-lg">
+            <div aria-hidden="true" className="absolute -top-4 -right-4 bg-brand-700 text-white rounded-2xl p-4 shadow-lg">
               <p className="font-bold text-2xl">500+</p>
               <p className="text-xs text-brand-200">Events catered</p>
             </div>
@@ -106,7 +106,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {VALUES.map(v => (
               <div key={v.title} className="text-center p-6 rounded-2xl border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="text-4xl mb-4">{v.icon}</div>
+                <div className="text-4xl mb-4" aria-hidden="true">{v.icon}</div>
                 <h3 className="font-semibold text-gray-900 mb-2">{v.title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed">{v.desc}</p>
               </div>
@@ -141,21 +141,22 @@ export default function AboutPage() {
       <div className="bg-brand-900 text-white py-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-display text-3xl font-bold mb-12 text-center">Our journey</h2>
-          <div className="relative">
-            <div className="absolute left-8 top-0 bottom-0 w-px bg-brand-700" />
-            <div className="space-y-8">
-              {TIMELINE.map(item => (
-                <div key={item.year} className="flex gap-6 relative">
-                  <div className="w-16 h-16 bg-warm-500 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm z-10">
-                    {item.year}
-                  </div>
-                  <div className="flex-1 pt-4">
-                    <p className="text-brand-100 leading-relaxed text-sm">{item.event}</p>
-                  </div>
+          <ol aria-label="Company history timeline" className="relative space-y-8">
+            <div className="absolute left-8 top-0 bottom-0 w-px bg-brand-700" aria-hidden="true" />
+            {TIMELINE.map(item => (
+              <li key={item.year} className="flex gap-6 relative">
+                <div aria-hidden="true" className="w-16 h-16 bg-warm-500 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm z-10">
+                  {item.year}
                 </div>
-              ))}
-            </div>
-          </div>
+                <div className="flex-1 pt-4">
+                  <p className="text-brand-100 leading-relaxed text-sm">
+                    <span className="sr-only">{item.year}: </span>
+                    {item.event}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
 
