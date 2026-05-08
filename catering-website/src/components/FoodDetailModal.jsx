@@ -1,9 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useCart } from '../context/CartContext'
 
 export default function FoodDetailModal({ item, onClose }) {
   const { state, dispatch } = useCart()
   const inCart = state.items.some(i => i.itemId === item.id)
+  const dialogRef = useRef(null)
 
   // Close on Escape
   useEffect(() => {
@@ -18,6 +19,13 @@ export default function FoodDetailModal({ item, onClose }) {
     return () => { document.body.style.overflow = '' }
   }, [])
 
+  // Focus management: move focus into dialog on open, restore on close
+  useEffect(() => {
+    const prevFocused = document.activeElement
+    dialogRef.current?.focus()
+    return () => { prevFocused?.focus() }
+  }, [])
+
   const CATEGORY_COLORS = {
     protein:    'bg-orange-100 text-orange-700',
     vegetarian: 'bg-green-100 text-green-700',
@@ -30,7 +38,12 @@ export default function FoodDetailModal({ item, onClose }) {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-3xl shadow-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto"
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-item-title"
+        tabIndex={-1}
+        className="bg-white rounded-3xl shadow-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto focus:outline-none"
         onClick={e => e.stopPropagation()}
       >
         {/* Image */}
@@ -46,7 +59,7 @@ export default function FoodDetailModal({ item, onClose }) {
             className="absolute top-4 right-4 bg-white/90 hover:bg-white rounded-full p-2 shadow-md transition-colors"
             aria-label="Close"
           >
-            <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -58,7 +71,7 @@ export default function FoodDetailModal({ item, onClose }) {
         {/* Content */}
         <div className="p-6">
           <div className="flex items-start justify-between gap-3 mb-3">
-            <h2 className="font-display text-2xl font-bold text-gray-900">{item.name}</h2>
+            <h2 id="modal-item-title" className="font-display text-2xl font-bold text-gray-900">{item.name}</h2>
             <span className="text-brand-700 font-bold text-lg whitespace-nowrap">
               ${item.pricePerPerson}<span className="text-gray-400 font-normal text-sm">/person</span>
             </span>

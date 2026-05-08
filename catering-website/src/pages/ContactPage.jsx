@@ -95,7 +95,7 @@ export default function ContactPage() {
             <div className="space-y-4">
               {CONTACT_INFO.map(item => (
                 <div key={item.label} className="flex items-start gap-4 bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
-                  <span className="text-2xl mt-0.5">{item.icon}</span>
+                  <span className="text-2xl mt-0.5" aria-hidden="true">{item.icon}</span>
                   <div>
                     <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-0.5">{item.label}</p>
                     {item.href ? (
@@ -123,7 +123,7 @@ export default function ContactPage() {
                     rel="noreferrer"
                     className={`flex items-center gap-3 text-gray-600 ${s.color} transition-colors group`}
                   >
-                    <span className="text-gray-400 group-hover:text-current transition-colors">{s.icon}</span>
+                    <span className="text-gray-400 group-hover:text-current transition-colors" aria-hidden="true">{s.icon}</span>
                     <div>
                       <p className="font-medium text-sm">{s.name}</p>
                       <p className="text-xs text-gray-400">{s.handle}</p>
@@ -135,16 +135,19 @@ export default function ContactPage() {
 
             {/* Response time note */}
             <div className="bg-warm-50 border border-warm-200 rounded-2xl p-4 text-sm text-warm-700">
-              <strong>⏱ Response time:</strong> We typically respond within 24 hours. For urgent event inquiries,
+              <strong><span aria-hidden="true">⏱</span> Response time:</strong> We typically respond within 24 hours. For urgent event inquiries,
               please call or WhatsApp us directly.
             </div>
           </div>
 
           {/* Right: Form */}
           <div className="lg:col-span-3">
+            <div aria-live="polite" aria-atomic="true" className="sr-only">
+              {submitted ? 'Message sent successfully.' : ''}
+            </div>
             {submitted ? (
               <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-10 text-center h-full flex flex-col items-center justify-center">
-                <div className="text-6xl mb-4">💌</div>
+                <div className="text-6xl mb-4" aria-hidden="true">💌</div>
                 <h2 className="font-display text-2xl font-bold text-gray-900 mb-2">Message sent!</h2>
                 <p className="text-gray-500 max-w-sm">
                   Thank you, {form.name.split(' ')[0]}! We've received your message and will get back to you within 24 hours.
@@ -162,22 +165,26 @@ export default function ContactPage() {
                 <form onSubmit={handleSubmit} noValidate className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                      <input type="text" placeholder="Your name" value={form.name}
-                        onChange={e => set('name', e.target.value)} className={inputClass} />
-                      {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+                      <label htmlFor="contact-name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                      <input id="contact-name" type="text" placeholder="Your name" value={form.name}
+                        onChange={e => set('name', e.target.value)} className={inputClass}
+                        required aria-describedby={errors.name ? 'contact-name-error' : undefined} />
+                      {errors.name && <p id="contact-name-error" className="text-red-500 text-xs mt-1">{errors.name}</p>}
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                      <input type="email" placeholder="you@example.com" value={form.email}
-                        onChange={e => set('email', e.target.value)} className={inputClass} />
-                      {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+                      <label htmlFor="contact-email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                      <input id="contact-email" type="email" placeholder="you@example.com" value={form.email}
+                        onChange={e => set('email', e.target.value)} className={inputClass}
+                        required aria-describedby={errors.email ? 'contact-email-error' : undefined} />
+                      {errors.email && <p id="contact-email-error" className="text-red-500 text-xs mt-1">{errors.email}</p>}
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
-                    <select value={form.subject} onChange={e => set('subject', e.target.value)} className={inputClass + ' cursor-pointer'}>
+                    <label htmlFor="contact-subject" className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                    <select id="contact-subject" value={form.subject} onChange={e => set('subject', e.target.value)}
+                      className={inputClass + ' cursor-pointer'}
+                      required aria-describedby={errors.subject ? 'contact-subject-error' : undefined}>
                       <option value="">Select a topic…</option>
                       <option>General Inquiry</option>
                       <option>Order Question</option>
@@ -186,19 +193,22 @@ export default function ContactPage() {
                       <option>Dietary & Allergy Question</option>
                       <option>Other</option>
                     </select>
-                    {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject}</p>}
+                    {errors.subject && <p id="contact-subject-error" className="text-red-500 text-xs mt-1">{errors.subject}</p>}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                    <label htmlFor="contact-message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
                     <textarea
+                      id="contact-message"
                       rows={6}
                       placeholder="Tell us about your event, any special dietary needs, questions about our menu, or anything else on your mind…"
                       value={form.message}
                       onChange={e => set('message', e.target.value)}
                       className={inputClass + ' resize-none'}
+                      required
+                      aria-describedby={errors.message ? 'contact-message-error' : undefined}
                     />
-                    {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
+                    {errors.message && <p id="contact-message-error" className="text-red-500 text-xs mt-1">{errors.message}</p>}
                   </div>
 
                   <button

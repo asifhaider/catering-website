@@ -47,23 +47,25 @@ export default function MenuPage() {
 
           {/* Date picker */}
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 max-w-md">
-            <label className="block text-sm font-semibold mb-2 text-brand-100">
+            <label htmlFor="menu-date" className="block text-sm font-semibold mb-2 text-brand-100">
               Select your catering date
             </label>
-            <p className="text-xs text-brand-300 mb-3">
+            <p id="menu-date-hint" className="text-xs text-brand-300 mb-3">
               Orders accepted 2–14 days in advance · {rangeLabel}
             </p>
             <input
+              id="menu-date"
               type="date"
               value={selectedDate}
               min={toInputValue(min)}
               max={toInputValue(max)}
               onChange={e => setSelectedDate(e.target.value)}
+              aria-describedby="menu-date-hint"
               className="w-full bg-white text-gray-900 font-medium px-4 py-3 rounded-xl border-0 focus:ring-2 focus:ring-warm-400 outline-none text-sm cursor-pointer"
             />
             {selectedDate && (
               <p className="text-warm-300 text-sm mt-2">
-                📅 Showing <strong className="text-white">{dayName}</strong>'s menu — {formatDateString(selectedDate)}
+                <span aria-hidden="true">📅</span> Showing <strong className="text-white">{dayName}</strong>'s menu — {formatDateString(selectedDate)}
               </p>
             )}
           </div>

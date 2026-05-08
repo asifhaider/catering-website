@@ -48,7 +48,7 @@ export default function InvoicePage() {
             onClick={handlePrint}
             className="flex items-center gap-2 bg-brand-700 hover:bg-brand-800 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-colors"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                 d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
             </svg>
@@ -58,7 +58,7 @@ export default function InvoicePage() {
 
         {/* Success banner */}
         <div className="bg-brand-50 border border-brand-200 rounded-2xl p-5 mb-6 text-center print:hidden">
-          <div className="text-4xl mb-2">🎉</div>
+          <div className="text-4xl mb-2" aria-hidden="true">🎉</div>
           <h1 className="font-display text-2xl font-bold text-brand-800 mb-1">Order Confirmed!</h1>
           <p className="text-brand-700 text-sm">
             Thank you, {order.customer.name.split(' ')[0]}! We'll have everything ready for pickup.
@@ -72,7 +72,7 @@ export default function InvoicePage() {
             <div className="flex items-start justify-between">
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xl">🍽️</span>
+                  <span className="text-xl" aria-hidden="true">🍽️</span>
                   <span className="font-display text-lg font-bold">Mama's Table</span>
                 </div>
                 <p className="text-brand-300 text-xs">Homemade Catering · Springfield, IL</p>
@@ -88,7 +88,7 @@ export default function InvoicePage() {
 
           <div className="p-6 space-y-6">
             {/* Info grid */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="bg-gray-50 rounded-xl p-4">
                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Bill To</p>
                 <p className="font-semibold text-gray-900 text-sm">{order.customer.name}</p>
@@ -115,35 +115,60 @@ export default function InvoicePage() {
 
             {/* Line items */}
             <div>
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b-2 border-gray-200">
-                    <th className="text-left pb-2 font-semibold text-gray-700">Item</th>
-                    <th className="text-center pb-2 font-semibold text-gray-700">Servings</th>
-                    <th className="text-right pb-2 font-semibold text-gray-700">$/person</th>
-                    <th className="text-right pb-2 font-semibold text-gray-700">Subtotal</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {order.items.map(item => (
-                    <tr key={item.id} className="border-b border-gray-100">
-                      <td className="py-3 text-gray-800 font-medium">
+              {/* Mobile card list (hidden at sm+) */}
+              <div className="sm:hidden divide-y divide-gray-100">
+                {order.items.map(item => (
+                  <div key={item.id} className="py-3">
+                    <div className="flex justify-between items-baseline gap-2">
+                      <p className="font-medium text-gray-800 text-sm">
                         {item.name}
                         <span className="ml-1 text-xs text-gray-400 font-normal capitalize">({item.category})</span>
-                      </td>
-                      <td className="py-3 text-center text-gray-600">{item.quantity}</td>
-                      <td className="py-3 text-right text-gray-600">${item.pricePerPerson}</td>
-                      <td className="py-3 text-right font-semibold text-gray-900">${item.subtotal}</td>
+                      </p>
+                      <span className="font-semibold text-gray-900 text-sm flex-shrink-0">${item.subtotal}</span>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-0.5">
+                      {item.quantity} servings × ${item.pricePerPerson}/person
+                    </p>
+                  </div>
+                ))}
+                <div className="pt-4 flex justify-between items-baseline">
+                  <span className="font-bold text-gray-900 text-base">Total</span>
+                  <span className="font-bold text-brand-700 text-lg">${order.total}</span>
+                </div>
+              </div>
+
+              {/* Desktop table (shown at sm+) */}
+              <div className="hidden sm:block overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b-2 border-gray-200">
+                      <th className="text-left pb-2 font-semibold text-gray-700">Item</th>
+                      <th className="text-center pb-2 font-semibold text-gray-700">Servings</th>
+                      <th className="text-right pb-2 font-semibold text-gray-700">$/person</th>
+                      <th className="text-right pb-2 font-semibold text-gray-700">Subtotal</th>
                     </tr>
-                  ))}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colSpan={3} className="pt-4 text-right font-bold text-gray-900 text-base">Total</td>
-                    <td className="pt-4 text-right font-bold text-brand-700 text-lg">${order.total}</td>
-                  </tr>
-                </tfoot>
-              </table>
+                  </thead>
+                  <tbody>
+                    {order.items.map(item => (
+                      <tr key={item.id} className="border-b border-gray-100">
+                        <td className="py-3 text-gray-800 font-medium">
+                          {item.name}
+                          <span className="ml-1 text-xs text-gray-400 font-normal capitalize">({item.category})</span>
+                        </td>
+                        <td className="py-3 text-center text-gray-600">{item.quantity}</td>
+                        <td className="py-3 text-right text-gray-600">${item.pricePerPerson}</td>
+                        <td className="py-3 text-right font-semibold text-gray-900">${item.subtotal}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colSpan={3} className="pt-4 text-right font-bold text-gray-900 text-base">Total</td>
+                      <td className="pt-4 text-right font-bold text-brand-700 text-lg">${order.total}</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
             </div>
 
             {/* Special instructions */}
@@ -156,7 +181,7 @@ export default function InvoicePage() {
 
             {/* Footer note */}
             <div className="border-t border-gray-100 pt-4 text-center text-xs text-gray-400">
-              <p>Thank you for choosing Mama's Table! 🍽️</p>
+              <p>Thank you for choosing Mama's Table! <span aria-hidden="true">🍽️</span></p>
               <p className="mt-1">Questions? Contact us at hello@mamastable.com or (555) 234-5678</p>
             </div>
           </div>

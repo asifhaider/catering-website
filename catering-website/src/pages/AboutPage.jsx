@@ -106,7 +106,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {VALUES.map(v => (
               <div key={v.title} className="text-center p-6 rounded-2xl border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="text-4xl mb-4">{v.icon}</div>
+                <div className="text-4xl mb-4" aria-hidden="true">{v.icon}</div>
                 <h3 className="font-semibold text-gray-900 mb-2">{v.title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed">{v.desc}</p>
               </div>
@@ -147,7 +147,7 @@ export default function AboutPage() {
               {TIMELINE.map(item => (
                 <div key={item.year} className="flex gap-6 relative">
                   <div className="w-16 h-16 bg-warm-500 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm z-10">
-                    {item.year}
+                    <time dateTime={item.year}>{item.year}</time>
                   </div>
                   <div className="flex-1 pt-4">
                     <p className="text-brand-100 leading-relaxed text-sm">{item.event}</p>

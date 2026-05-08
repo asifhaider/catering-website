@@ -5,12 +5,12 @@ import { foodItems, formatDateString } from '../data/menuData'
 
 const PICKUP_TIMES = ['11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM']
 
-function Field({ label, error, children }) {
+function Field({ label, error, htmlFor, children }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <label htmlFor={htmlFor} className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
       {children}
-      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+      {error && <p id={htmlFor ? `${htmlFor}-error` : undefined} className="text-red-500 text-xs mt-1">{error}</p>}
     </div>
   )
 }
@@ -139,16 +139,18 @@ export default function CheckoutPage() {
                   Pickup Details
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Field label="Pickup Date">
+                  <Field label="Pickup Date" htmlFor="checkout-pickup-date">
                     <input
+                      id="checkout-pickup-date"
                       type="text"
                       value={formatDateString(selectedDate)}
                       readOnly
                       className={inputClass + ' bg-gray-50 cursor-default text-gray-600'}
                     />
                   </Field>
-                  <Field label="Pickup Time">
+                  <Field label="Pickup Time" htmlFor="checkout-pickup-time">
                     <select
+                      id="checkout-pickup-time"
                       value={form.pickupTime}
                       onChange={e => set('pickupTime', e.target.value)}
                       className={selectClass}
@@ -156,8 +158,9 @@ export default function CheckoutPage() {
                       {PICKUP_TIMES.map(t => <option key={t}>{t}</option>)}
                     </select>
                   </Field>
-                  <Field label="Number of Guests" error={errors.guests}>
+                  <Field label="Number of Guests" htmlFor="checkout-guests" error={errors.guests}>
                     <input
+                      id="checkout-guests"
                       type="number"
                       min={6}
                       max={30}
@@ -165,8 +168,10 @@ export default function CheckoutPage() {
                       value={form.guests}
                       onChange={e => set('guests', e.target.value)}
                       className={inputClass}
+                      required
+                      aria-describedby={errors.guests ? 'checkout-guests-error' : 'checkout-guests-hint'}
                     />
-                    <p className="text-xs text-gray-400 mt-1">Between 6 and 30 people</p>
+                    <p id="checkout-guests-hint" className="text-xs text-gray-400 mt-1">Between 6 and 30 people</p>
                   </Field>
                 </div>
               </div>
@@ -178,21 +183,25 @@ export default function CheckoutPage() {
                   Contact Information
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Field label="First Name" error={errors.firstName}>
-                    <input type="text" placeholder="Zara" value={form.firstName}
-                      onChange={e => set('firstName', e.target.value)} className={inputClass} />
+                  <Field label="First Name" htmlFor="checkout-first-name" error={errors.firstName}>
+                    <input id="checkout-first-name" type="text" placeholder="Zara" value={form.firstName}
+                      onChange={e => set('firstName', e.target.value)} className={inputClass}
+                      required aria-describedby={errors.firstName ? 'checkout-first-name-error' : undefined} />
                   </Field>
-                  <Field label="Last Name" error={errors.lastName}>
-                    <input type="text" placeholder="Al-Hassan" value={form.lastName}
-                      onChange={e => set('lastName', e.target.value)} className={inputClass} />
+                  <Field label="Last Name" htmlFor="checkout-last-name" error={errors.lastName}>
+                    <input id="checkout-last-name" type="text" placeholder="Al-Hassan" value={form.lastName}
+                      onChange={e => set('lastName', e.target.value)} className={inputClass}
+                      required aria-describedby={errors.lastName ? 'checkout-last-name-error' : undefined} />
                   </Field>
-                  <Field label="Email" error={errors.email}>
-                    <input type="email" placeholder="you@example.com" value={form.email}
-                      onChange={e => set('email', e.target.value)} className={inputClass} />
+                  <Field label="Email" htmlFor="checkout-email" error={errors.email}>
+                    <input id="checkout-email" type="email" placeholder="you@example.com" value={form.email}
+                      onChange={e => set('email', e.target.value)} className={inputClass}
+                      required aria-describedby={errors.email ? 'checkout-email-error' : undefined} />
                   </Field>
-                  <Field label="Phone" error={errors.phone}>
-                    <input type="tel" placeholder="(555) 123-4567" value={form.phone}
-                      onChange={e => set('phone', e.target.value)} className={inputClass} />
+                  <Field label="Phone" htmlFor="checkout-phone" error={errors.phone}>
+                    <input id="checkout-phone" type="tel" placeholder="(555) 123-4567" value={form.phone}
+                      onChange={e => set('phone', e.target.value)} className={inputClass}
+                      required aria-describedby={errors.phone ? 'checkout-phone-error' : undefined} />
                   </Field>
                 </div>
               </div>
@@ -204,62 +213,71 @@ export default function CheckoutPage() {
                   Payment Method
                 </h2>
 
-                <div className="grid grid-cols-3 gap-3 mb-4">
-                  {[
-                    { value: 'cash',  label: 'Cash',  icon: '💵', note: 'Pay at pickup' },
-                    { value: 'venmo', label: 'Venmo', icon: '💳', note: '@handle sent after' },
-                    { value: 'zelle', label: 'Zelle', icon: '🏦', note: 'Request sent after' },
-                  ].map(opt => (
-                    <label
-                      key={opt.value}
-                      className={`border rounded-xl p-3 cursor-pointer flex flex-col items-center gap-1 transition-all text-center ${
-                        form.payment === opt.value
-                          ? 'border-brand-700 bg-brand-50 ring-1 ring-brand-700'
-                          : 'border-gray-200 hover:border-brand-300'
-                      }`}
-                    >
-                      <input type="radio" name="payment" value={opt.value} className="sr-only"
-                        checked={form.payment === opt.value}
-                        onChange={() => { set('payment', opt.value); set('paymentHandle', '') }} />
-                      <span className="text-xl">{opt.icon}</span>
-                      <span className="font-semibold text-sm text-gray-800">{opt.label}</span>
-                      <span className="text-xs text-gray-400">{opt.note}</span>
-                    </label>
-                  ))}
-                </div>
+                <fieldset>
+                  <legend className="sr-only">Payment method</legend>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 mb-4">
+                    {[
+                      { value: 'cash',  label: 'Cash',  icon: '💵', note: 'Pay at pickup' },
+                      { value: 'venmo', label: 'Venmo', icon: '💳', note: '@handle sent after' },
+                      { value: 'zelle', label: 'Zelle', icon: '🏦', note: 'Request sent after' },
+                    ].map(opt => (
+                      <label
+                        key={opt.value}
+                        className={`border rounded-xl p-3 cursor-pointer flex flex-row sm:flex-col items-center gap-3 sm:gap-1 sm:text-center transition-all ${
+                          form.payment === opt.value
+                            ? 'border-brand-700 bg-brand-50 ring-1 ring-brand-700'
+                            : 'border-gray-200 hover:border-brand-300'
+                        }`}
+                      >
+                        <input type="radio" name="payment" value={opt.value} className="sr-only"
+                          checked={form.payment === opt.value}
+                          onChange={() => { set('payment', opt.value); set('paymentHandle', '') }} />
+                        <span className="text-xl flex-shrink-0" aria-hidden="true">{opt.icon}</span>
+                        <span className="flex-1 sm:flex-none">
+                          <span className="block font-semibold text-sm text-gray-800">{opt.label}</span>
+                          <span className="block text-xs text-gray-400">{opt.note}</span>
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
 
                 {form.payment === 'cash' && (
                   <p className="text-sm text-gray-500 bg-gray-50 rounded-xl p-3">
-                    💵 Please have exact cash ready at pickup. We appreciate it!
+                    <span aria-hidden="true">💵</span> Please have exact cash ready at pickup. We appreciate it!
                   </p>
                 )}
 
                 {form.payment === 'venmo' && (
-                  <Field label="Your Venmo @handle" error={errors.paymentHandle}>
-                    <input type="text" placeholder="@your-handle" value={form.paymentHandle}
-                      onChange={e => set('paymentHandle', e.target.value)} className={inputClass} />
-                    <p className="text-xs text-gray-400 mt-1">We'll send a payment request the day before pickup.</p>
+                  <Field label="Your Venmo @handle" htmlFor="checkout-payment-handle" error={errors.paymentHandle}>
+                    <input id="checkout-payment-handle" type="text" placeholder="@your-handle" value={form.paymentHandle}
+                      onChange={e => set('paymentHandle', e.target.value)} className={inputClass}
+                      required aria-describedby={errors.paymentHandle ? 'checkout-payment-handle-error' : 'checkout-payment-handle-hint'} />
+                    <p id="checkout-payment-handle-hint" className="text-xs text-gray-400 mt-1">We'll send a payment request the day before pickup.</p>
                   </Field>
                 )}
 
                 {form.payment === 'zelle' && (
-                  <Field label="Your Zelle phone or email" error={errors.paymentHandle}>
-                    <input type="text" placeholder="(555) 123-4567 or you@example.com"
+                  <Field label="Your Zelle phone or email" htmlFor="checkout-payment-handle" error={errors.paymentHandle}>
+                    <input id="checkout-payment-handle" type="text" placeholder="(555) 123-4567 or you@example.com"
                       value={form.paymentHandle}
-                      onChange={e => set('paymentHandle', e.target.value)} className={inputClass} />
-                    <p className="text-xs text-gray-400 mt-1">We'll send a Zelle request the day before pickup.</p>
+                      onChange={e => set('paymentHandle', e.target.value)} className={inputClass}
+                      required aria-describedby={errors.paymentHandle ? 'checkout-payment-handle-error' : 'checkout-payment-handle-hint'} />
+                    <p id="checkout-payment-handle-hint" className="text-xs text-gray-400 mt-1">We'll send a Zelle request the day before pickup.</p>
                   </Field>
                 )}
               </div>
 
               {/* Special instructions */}
               <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-                <h2 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <h2 id="special-instructions-heading" className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                   <span className="w-6 h-6 bg-brand-700 text-white rounded-full text-xs flex items-center justify-center font-bold">4</span>
                   Special Instructions
                   <span className="text-gray-400 font-normal text-xs ml-1">(optional)</span>
                 </h2>
                 <textarea
+                  id="checkout-instructions"
+                  aria-labelledby="special-instructions-heading"
                   rows={4}
                   placeholder="Allergies, dietary restrictions, delivery notes, or anything else you'd like us to know…"
                   value={form.instructions}

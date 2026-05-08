@@ -31,35 +31,39 @@ function CartRow({ entry }) {
           <button
             onClick={() => dispatch({ type: 'REMOVE_ITEM', itemId: item.id })}
             className="text-gray-300 hover:text-red-500 transition-colors flex-shrink-0 p-1"
-            aria-label="Remove"
+            aria-label={`Remove ${item.name} from cart`}
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
         {/* Quantity controls */}
-        <div className="flex items-center justify-between mt-3">
-          <div className="flex items-center gap-1">
-            <span className="text-xs text-gray-500 mr-1">Servings:</span>
-            <button
-              onClick={() => dispatch({ type: 'UPDATE_QUANTITY', itemId: item.id, quantity: entry.quantity - 1 })}
-              disabled={entry.quantity <= MIN_PORTIONS}
-              className="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-sm font-bold"
-            >
-              −
-            </button>
-            <span className="w-10 text-center text-sm font-semibold text-gray-900">{entry.quantity}</span>
-            <button
-              onClick={() => dispatch({ type: 'UPDATE_QUANTITY', itemId: item.id, quantity: entry.quantity + 1 })}
-              disabled={entry.quantity >= MAX_PORTIONS}
-              className="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-sm font-bold"
-            >
-              +
-            </button>
+        <div className="mt-3">
+          <p className="text-xs text-gray-500 mb-1">Servings</p>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => dispatch({ type: 'UPDATE_QUANTITY', itemId: item.id, quantity: entry.quantity - 1 })}
+                disabled={entry.quantity <= MIN_PORTIONS}
+                aria-label={`Decrease servings of ${item.name}`}
+                className="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-sm font-bold"
+              >
+                −
+              </button>
+              <span className="w-10 text-center text-sm font-semibold text-gray-900" aria-label={`${entry.quantity} servings`}>{entry.quantity}</span>
+              <button
+                onClick={() => dispatch({ type: 'UPDATE_QUANTITY', itemId: item.id, quantity: entry.quantity + 1 })}
+                disabled={entry.quantity >= MAX_PORTIONS}
+                aria-label={`Increase servings of ${item.name}`}
+                className="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors text-sm font-bold"
+              >
+                +
+              </button>
+            </div>
+            <span className="font-bold text-brand-700 text-sm">${subtotal}</span>
           </div>
-          <span className="font-bold text-brand-700 text-sm">${subtotal}</span>
         </div>
         <p className="text-xs text-gray-400 mt-1">Min {MIN_PORTIONS} · Max {MAX_PORTIONS} people per dish</p>
       </div>
@@ -103,7 +107,7 @@ export default function CartPage() {
 
         {isEmpty ? (
           <div className="text-center py-24 bg-white rounded-3xl border border-gray-100">
-            <div className="text-6xl mb-4">🛒</div>
+            <div className="text-6xl mb-4" aria-hidden="true">🛒</div>
             <h2 className="text-xl font-semibold text-gray-700 mb-2">Your cart is empty</h2>
             <p className="text-gray-400 text-sm mb-6">Head over to the menu to add some dishes.</p>
             <Link
@@ -121,7 +125,7 @@ export default function CartPage() {
 
             {/* Tip box */}
             <div className="bg-warm-50 border border-warm-200 rounded-2xl p-4 text-sm text-warm-700">
-              <strong>💡 Tip:</strong> Adjust servings per dish to match your event size (6–30 people per item).
+              <strong><span aria-hidden="true">💡</span> Tip:</strong> Adjust servings per dish to match your event size (6–30 people per item).
             </div>
 
             {/* Summary */}
