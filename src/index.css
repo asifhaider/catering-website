@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    scroll-padding-top: 72px; /* matches sticky header height */
+  }
+
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #FFFBEB;
+    color: #1C1917;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+  }
+
+  *:focus-visible {
+    outline: 2px solid #D97706;
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .skip-nav {
+    @apply sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200]
+      focus:bg-amber-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-md
+      focus:font-medium focus:shadow-lg;
+  }
+}
+
+/* Print styles */
+@media print {
+  header,
+  footer,
+  nav,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+    font-size: 12pt;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  a[href]::after {
+    content: none;
+  }
+
+  .invoice-table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  .invoice-table th,
+  .invoice-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+  }
+}
