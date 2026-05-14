@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import SkipNavLink from './components/layout/SkipNavLink';
 import Header from './components/layout/Header';
@@ -12,7 +12,7 @@ import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <CartProvider>
         <SkipNavLink />
         <Header />
@@ -28,6 +28,6 @@ export default function App() {
         </main>
         <Footer />
       </CartProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
