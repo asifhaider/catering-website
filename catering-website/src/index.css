@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --focus-ring: 0 0 0 3px #df832a;
+  }
+
+  *:focus-visible {
+    outline: 3px solid #df832a;
+    outline-offset: 2px;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Ensure text spacing overrides (WCAG 1.4.12) never clip content */
+  * {
+    min-height: 0;
+  }
+}
+
+@layer utilities {
+  /* Skip link visible on focus */
+  .skip-link {
+    @apply absolute -top-full left-0 z-50 bg-brand-600 text-white px-4 py-2 font-semibold;
+    transition: top 0.1s;
+  }
+  .skip-link:focus {
+    top: 0;
+  }
+
+  /* Print styles */
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+    .print-full {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+  }
+}
