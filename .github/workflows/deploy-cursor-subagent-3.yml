@@ -1,0 +1,42 @@
+name: Deploy cursor-subagent-3
+
+on:
+  push:
+    branches:
+      - cursor-subagent-3
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout source branch
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: catering-website/package-lock.json
+
+      - name: Install dependencies
+        working-directory: catering-website
+        run: npm ci
+
+      - name: Build
+        working-directory: catering-website
+        run: npm run build
+        env:
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+
+      - name: Deploy to gh-pages subdirectory
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./catering-website/dist
+          destination_dir: cursor-subagent-3
+          keep_files: true
