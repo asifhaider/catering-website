@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[13677,["/catering-website/cursor-subagent-2/_next/static/chunks/0px_v4oy9qv3a.js","/catering-website/cursor-subagent-2/_next/static/chunks/14mrh2-p_w84d.js","/catering-website/cursor-subagent-2/_next/static/chunks/2uhaqv15qh3vn.js"],"default"]
+3:I[97367,["/catering-website/cursor-subagent-2/_next/static/chunks/0px_v4oy9qv3a.js","/catering-website/cursor-subagent-2/_next/static/chunks/14mrh2-p_w84d.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+0:{"rsc":["$","$1","c",{"children":[["$","div",null,{"className":"page-shell","style":{"paddingTop":"2rem"},"children":["$","$L2",null,{}]}],[["$","script","script-0",{"src":"/catering-website/cursor-subagent-2/_next/static/chunks/2uhaqv15qh3vn.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"IqLVV7vtEkNmciPA08CfP"}
+5:null
